@@ -5,9 +5,10 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Welcome from "./Welcome";
 import { useState } from "react";
 import LogIn from "./components/LogIn/LogIn";
+import { useStateValue } from "./Context/StateProvider";
 
 function App() {
-  const [user, setUser] = useState(null);
+const[{user},dispatch]=useStateValue();
 
   return (
     <div className="app">

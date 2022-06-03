@@ -9,9 +9,11 @@ import {
 } from "@mui/icons-material";
 import SidebarChat from "./SidebarChat/SidebarChat";
 import db from "../../firebase";
+import { useStateValue } from "../../Context/StateProvider";
 
 function Sidebar() {
 const [rooms,setRooms]=useState([]);
+const[{user},dispatch]=useStateValue()
 
 useEffect(()=>{
   db.collection('Rooms').onSnapshot((snapshot)=>
@@ -23,12 +25,12 @@ useEffect(()=>{
     }))
   )
   )
-},[])
+},[user])
 
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar />
+        <Avatar src={user?.photoURL}/>
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLarge />

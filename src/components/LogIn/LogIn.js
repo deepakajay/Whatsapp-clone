@@ -2,11 +2,19 @@ import React from "react";
 import "./LogIn.css";
 import { Button } from "@mui/material";
 import { auth, provider } from "../../firebase";
+import { useStateValue } from "../../Context/StateProvider";
+import { actionTypes } from "../../Context/Reducer";
 
 function LogIn() {
+const[{},dispatch]=useStateValue();
+
     const signIn=()=>{
         auth.signInWithPopup(provider).then(result=>{
             console.log(result);
+            dispatch({
+                type:actionTypes.SET_USER,
+                user:result.user
+            })
         }).catch(error=>alert(error.message));
     };
   return (
