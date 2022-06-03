@@ -37,8 +37,8 @@ font-weight: 500;
     background-repeat: repeat;
     background-position: center;
     padding: 30px;
-    overflow: scroll;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .chat__name{

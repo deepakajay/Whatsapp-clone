@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from "react";
 import "./Sidebar.css";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import {
   Chat,
   DonutLarge,
@@ -13,7 +13,8 @@ import { useStateValue } from "../../Context/StateProvider";
 
 function Sidebar() {
 const [rooms,setRooms]=useState([]);
-const[{user},dispatch]=useStateValue()
+const[{user},dispatch]=useStateValue();
+const [photo,setPhoto]=useState("");
 
 useEffect(()=>{
   db.collection('Rooms').onSnapshot((snapshot)=>
@@ -27,11 +28,17 @@ useEffect(()=>{
   )
 },[user])
 
+useEffect(()=>{
+setPhoto(user.photoURL);
+},[user])
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar src={user?.photoURL}/>
+        <Avatar src={photo} referrerpolicy="no-referrer" alt=""/>
+        
         <div className="sidebar__headerRight">
+        <Typography variant="h6" style={{fontWeight:700}}>{user.displayName}</Typography>
           <IconButton>
             <DonutLarge />
           </IconButton>

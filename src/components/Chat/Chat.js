@@ -19,7 +19,7 @@ function Chat() {
   const [roomName, setRoomName] = useState("");
   const { roomId } = useParams();
   const [messages, setMessages] = useState([]);
-  const[{user},dispatch]=useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (roomId) {
@@ -45,12 +45,12 @@ function Chat() {
     event.preventDefault();
     setInput("");
     console.log(input);
-    db.collection('Rooms').doc(roomId).collection('messages').add({
-        message:input,
-        name:user.displayName,
-        timestamp:firebase.firestore.FieldValue.serverTimestamp(),
-    })
-
+    db.collection("Rooms").doc(roomId).collection("messages").add({
+      message: input,
+      name: user.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      image: user.photoURL,
+    });
   };
 
   return (
@@ -59,10 +59,11 @@ function Chat() {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
-          <p>Last seen{" "}
-          {new Date(
-              messages[messages.length-1]?.timestamp?.toDate()).toUTCString()   
-          }
+          <p>
+            Last seen{" "}
+            {new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toUTCString()}
           </p>
         </div>
         <div className="chat__headerRight">
@@ -80,7 +81,12 @@ function Chat() {
 
       <div className="chat__body">
         {messages.map((message) => (
-          <p className={`chat__message ${message.name===user.displayName && "chat__receiver"}`}>
+          <p
+            className={`chat__message ${
+              message.name === user.displayName && "chat__receiver"
+            }`}
+          >
+            <Avatar src={message.image} />
             <span className="chat__name">{message.name}</span>
             {message.message}
             <span className="chat__timeStamp">
