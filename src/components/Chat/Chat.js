@@ -12,6 +12,7 @@ import { useStateValue } from "../../Context/StateProvider";
 import db from "../../firebase";
 import "./Chat.css";
 import firebase from "firebase/compat/app";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Chat() {
   const [seed, setSeed] = useState("");
@@ -53,6 +54,10 @@ function Chat() {
     });
   };
 
+  function deleteMessage(timestamp){
+      console.log(timestamp);
+  }
+
   return (
     <div className="chat">
       <div className="chat__header">
@@ -87,10 +92,12 @@ function Chat() {
             }`}
           >
             <Avatar src={message.image} />
+          
             <span className="chat__name">{message.name}</span>
             {message.message}
             <span className="chat__timeStamp">
               {new Date(message.timestamp?.toDate()).toUTCString()}
+              {message.name === user.displayName&&<IconButton onClick={()=>deleteMessage(message.timestamp)}><DeleteIcon fontSize="small"/></IconButton>}
             </span>
           </p>
         ))}
