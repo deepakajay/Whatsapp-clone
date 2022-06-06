@@ -45,7 +45,6 @@ function Chat() {
   const sendMessage = (event) => {
     event.preventDefault();
     setInput("");
-    console.log(input);
     db.collection("Rooms").doc(roomId).collection("messages").add({
       message: input,
       name: user.displayName,
@@ -54,8 +53,14 @@ function Chat() {
     });
   };
 
-  function deleteMessage(timestamp){
-      console.log(timestamp);
+  function deleteMessage(message){
+    console.log(message);
+      const deleteMessage=db.collection("Rooms").doc(roomId).collection('messages').where('message','==',message);
+deleteMessage.get().then(function(querySnapshot){
+  querySnapshot.forEach(function(doc){
+    doc.ref.delete();
+  })
+})
   }
 
   return (
@@ -97,7 +102,7 @@ function Chat() {
             {message.message}
             <span className="chat__timeStamp">
               {new Date(message.timestamp?.toDate()).toUTCString()}
-              {message.name === user.displayName&&<IconButton onClick={()=>deleteMessage(message.timestamp)}><DeleteIcon fontSize="small"/></IconButton>}
+              {message.name === user.displayName&&<IconButton onClick={()=>deleteMessage(message.message)}><DeleteIcon fontSize="small"/></IconButton>}
             </span>
           </p>
         ))}
